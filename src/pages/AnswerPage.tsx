@@ -8,6 +8,7 @@ import { useKnowledgeStore } from '@/stores/knowledgeStore'
 import { assessAnswer } from '@/services/ai'
 import { useToast } from '@/components/ui/toast'
 import { Loading } from '@/components/ui/loading'
+import { VoiceInput } from '@/components/VoiceInput'
 
 /**
  * 回答输入页面
@@ -107,10 +108,23 @@ export function AnswerPage() {
                     placeholder="用简单易懂的语言回答以上所有问题，就像向一个小学生解释一样..."
                     className="min-h-[200px]"
                     disabled={isAssessing}
+                    aria-label="回答输入框"
+                    aria-describedby="answer-hint"
                   />
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    {localAnswer.length} 字符
-                  </p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <p id="answer-hint" className="text-xs text-muted-foreground" aria-live="polite">
+                      {localAnswer.length} 字符
+                    </p>
+                    <div className="w-32">
+                      <VoiceInput
+                        onTranscript={(text) => {
+                          const newText = localAnswer ? `${localAnswer} ${text}` : text
+                          setLocalAnswer(newText)
+                        }}
+                        disabled={isAssessing}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>

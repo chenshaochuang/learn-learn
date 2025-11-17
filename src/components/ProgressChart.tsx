@@ -33,12 +33,14 @@ export function ProgressChart({ records }: ProgressChartProps) {
 
   const maxScore = 10
   const chartHeight = 200
-  const chartWidth = 100
   const padding = 20
+
+  // 根据记录数量调整图表宽度
+  const chartWidth = validRecords.length > 1 ? 100 : 200
 
   // 计算每个点的坐标
   const points = validRecords.map((record, index) => {
-    const x = padding + (index * (chartWidth - 2 * padding)) / (validRecords.length - 1 || 1)
+    const x = padding + (index * (chartWidth - 2 * padding)) / Math.max(validRecords.length - 1, 1)
     const y = chartHeight - padding - ((record.assessment!.overall / maxScore) * (chartHeight - 2 * padding))
     return { x, y, score: record.assessment!.overall, date: record.createdAt }
   })
@@ -59,7 +61,7 @@ export function ProgressChart({ records }: ProgressChartProps) {
       </CardHeader>
       <CardContent>
         <div className="relative" style={{ height: chartHeight + 40 }}>
-          <svg width="100%" height={chartHeight} className="overflow-visible">
+          <svg width={chartWidth} height={chartHeight} className="overflow-visible mx-auto">
             {/* 背景网格 */}
             {[0, 0.5, 1].map((scale) => (
               <line
@@ -83,14 +85,16 @@ export function ProgressChart({ records }: ProgressChartProps) {
             </text>
 
             {/* 折线 */}
-            <path
-              d={pathData}
-              fill="none"
-              stroke="rgb(59, 130, 246)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            {validRecords.length > 1 && (
+              <path
+                d={pathData}
+                fill="none"
+                stroke="rgb(59, 130, 246)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            )}
 
             {/* 数据点 */}
             {points.map((point, index) => (

@@ -41,7 +41,7 @@ export function HomePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      <div className="mb-8 text-center animate-fade-in">
+      <header className="mb-8 text-center animate-fade-in">
         <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           费曼学习法输出训练器
         </h1>
@@ -52,10 +52,11 @@ export function HomePage() {
           variant="outline"
           onClick={() => navigate('/history')}
           className="mb-4 hover:scale-105 transition-transform"
+          aria-label="查看历史记录"
         >
           查看历史记录
         </Button>
-      </div>
+      </header>
       {isGenerating ? (
         <div className="flex justify-center py-12">
           <Loading size="lg" text="正在生成问题..." />

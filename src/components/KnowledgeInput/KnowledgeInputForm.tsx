@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { VoiceInput } from '@/components/VoiceInput'
 import { useKnowledgeStore } from '@/stores/knowledgeStore'
 
 interface KnowledgeInputFormProps {
@@ -39,6 +40,13 @@ export function KnowledgeInputForm({ onSubmit, isLoading = false }: KnowledgeInp
     onSubmit(trimmed)
   }
 
+  const handleVoiceTranscript = (text: string) => {
+    // 将语音识别的文本追加到当前内容
+    const newText = currentKnowledge ? `${currentKnowledge} ${text}` : text
+    setKnowledge(newText)
+    setError(null)
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -55,21 +63,32 @@ export function KnowledgeInputForm({ onSubmit, isLoading = false }: KnowledgeInp
           placeholder="例如：什么是机器学习？机器学习是一种让计算机从数据中学习的方法..."
           className="min-h-[120px]"
           disabled={isLoading}
+          aria-label="知识点输入框"
+          aria-describedby={error ? "knowledge-error" : "knowledge-hint"}
+          aria-invalid={!!error}
         />
         {error && (
-          <p className="mt-2 text-sm text-destructive">{error}</p>
+          <p id="knowledge-error" className="mt-2 text-sm text-destructive" role="alert">
+            {error}
+          </p>
         )}
-        <p className="mt-2 text-xs text-muted-foreground">
+        <p id="knowledge-hint" className="mt-2 text-xs text-muted-foreground" aria-live="polite">
           {currentKnowledge.length} / 1000 字符
         </p>
       </div>
-      <Button 
-        type="submit" 
-        disabled={isLoading || !currentKnowledge.trim()}
-        className="w-full"
-      >
-        {isLoading ? '处理中...' : '开始训练'}
-      </Button>
+      <div className="space-y-2">
+        <VoiceInput 
+          onTranscript={handleVoiceTranscript}
+          disabled={isLoading}
+        />
+        <Button 
+          type="submit" 
+          disabled={isLoading || !currentKnowledge.trim()}
+          className="w-full"
+        >
+          {isLoading ? '处理中...' : '开始训练'}
+        </Button>
+      </div>
     </form>
   )
 }

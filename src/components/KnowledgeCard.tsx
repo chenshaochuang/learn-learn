@@ -8,18 +8,20 @@ import { Badge } from '@/components/ui/badge'
 import type { KnowledgeRecord } from '@/types/knowledge'
 import { formatDate, truncate } from '@/utils/formatters'
 import { exportRecordAsJSON, exportRecordAsMarkdown } from '@/utils/export'
+import { shareRecord } from '@/utils/share'
 
 interface KnowledgeCardProps {
   record: KnowledgeRecord
   onSelect?: (record: KnowledgeRecord) => void
   onDelete?: (recordId: string) => void
   onToggleCompare?: (record: KnowledgeRecord) => void
+  onShare?: (success: boolean) => void
   isComparing?: boolean
   viewMode?: 'card' | 'list'
   tagMap?: Map<string, { name: string; color?: string }>
 }
 
-export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isComparing, viewMode = 'card', tagMap }: KnowledgeCardProps) {
+export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, onShare, isComparing, viewMode = 'card', tagMap }: KnowledgeCardProps) {
   const handleClick = () => {
     onSelect?.(record)
   }
@@ -29,6 +31,12 @@ export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isC
     if (window.confirm('确定要删除这条记录吗？')) {
       onDelete?.(record.id)
     }
+  }
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const success = await shareRecord(record)
+    onShare?.(success)
   }
 
   const getScoreColor = (score: number) => {
@@ -67,7 +75,7 @@ export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isC
                 )}
               </div>
             </div>
-            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-wrap">
               {onToggleCompare && (
                 <Button
                   variant={isComparing ? "default" : "outline"}
@@ -81,6 +89,14 @@ export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isC
                   {isComparing ? '取消' : '对比'}
                 </Button>
               )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleShare}
+                title="分享记录"
+              >
+                分享
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"
@@ -190,7 +206,7 @@ export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isC
           </span>
         </div>
 
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity pt-2 border-t">
+        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity pt-2 border-t flex-wrap">
           {onToggleCompare && (
             <Button
               variant={isComparing ? "default" : "outline"}
@@ -207,24 +223,33 @@ export function KnowledgeCard({ record, onSelect, onDelete, onToggleCompare, isC
           <Button
             variant="ghost"
             size="sm"
-            className="flex-1 text-xs"
+            className="text-xs"
+            onClick={handleShare}
+            title="分享记录"
+          >
+            分享
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs"
             onClick={(e) => {
               e.stopPropagation()
               exportRecordAsJSON(record)
             }}
           >
-            导出 JSON
+            JSON
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="flex-1 text-xs"
+            className="text-xs"
             onClick={(e) => {
               e.stopPropagation()
               exportRecordAsMarkdown(record)
             }}
           >
-            导出 MD
+            MD
           </Button>
           {onDelete && (
             <Button

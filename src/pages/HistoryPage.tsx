@@ -14,6 +14,8 @@ import { exportAllRecordsAsJSON, exportAllRecordsAsMarkdown, exportLearningRepor
 import { KnowledgeCard } from '@/components/KnowledgeCard'
 import { ProgressChart, ScoreDistribution } from '@/components/ProgressChart'
 import { RecordComparison } from '@/components/RecordComparison'
+import { TagCloud, KnowledgeDistribution, LearningTimeDistribution } from '@/components/KnowledgeGraph'
+import { TrendAnalysis, DimensionAnalysis, LearningSuggestions } from '@/components/AdvancedStats'
 
 /**
  * 历史记录页面
@@ -67,9 +69,17 @@ export function HistoryPage() {
     })
   }
 
+  const handleShare = (success: boolean) => {
+    if (success) {
+      showSuccess('已复制到剪贴板')
+    } else {
+      showError('分享失败，请重试')
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+      <header className="mb-6 flex items-center justify-between flex-wrap gap-4">
         <h1 className="text-3xl font-bold">历史记录</h1>
         <div className="flex gap-2 items-center">
           {records.length > 0 && (
@@ -110,9 +120,9 @@ export function HistoryPage() {
               </Button>
             </>
           )}
-          <Button onClick={() => navigate('/')}>新建训练</Button>
+          <Button onClick={() => navigate('/')} aria-label="新建训练">新建训练</Button>
         </div>
-      </div>
+      </header>
 
       {/* 记录对比 */}
       {comparingRecords.length > 0 && (
@@ -128,10 +138,26 @@ export function HistoryPage() {
 
       {/* 学习进度统计 */}
       {records.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <ProgressChart records={records} />
-          <ScoreDistribution records={records} />
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <ProgressChart records={records} />
+            <ScoreDistribution records={records} />
+          </div>
+          
+          {/* 知识图谱和分布统计 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <TagCloud records={records} tags={tags} />
+            <KnowledgeDistribution records={records} />
+            <LearningTimeDistribution records={records} />
+          </div>
+
+          {/* 高级统计分析 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <TrendAnalysis records={records} />
+            <DimensionAnalysis records={records} />
+            <LearningSuggestions records={records} />
+          </div>
+        </>
       )}
 
       {/* 搜索框和标签筛选 */}
@@ -148,6 +174,7 @@ export function HistoryPage() {
                 clearSearch()
               }
             }}
+            aria-label="搜索记录"
           />
           {tags.length > 0 && (
             <div>
@@ -215,6 +242,7 @@ export function HistoryPage() {
                 onSelect={handleRecordSelect}
                 onDelete={handleRecordDelete}
                 onToggleCompare={handleToggleCompare}
+                onShare={handleShare}
                 isComparing={comparingRecords.some(r => r.id === record.id)}
                 viewMode={viewMode}
                 tagMap={tagMap}
