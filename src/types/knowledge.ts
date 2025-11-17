@@ -2,6 +2,8 @@
  * 知识点相关类型定义
  */
 
+import type { AssessmentResult } from './assessment'
+
 /**
  * 标签
  */

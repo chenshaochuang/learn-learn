@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
  */
 export function HomePage() {
   const navigate = useNavigate()
-  const { setKnowledge, setQuestions, setLoading, setError } = useKnowledgeStore()
+  const { setQuestions, setLoading, setError } = useKnowledgeStore()
   const { showError, showSuccess } = useToast()
   const [isGenerating, setIsGenerating] = useState(false)
 

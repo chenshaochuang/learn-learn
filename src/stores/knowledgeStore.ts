@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { KnowledgeRecord, KnowledgeInput } from '@/types/knowledge'
+import type { KnowledgeRecord } from '@/types/knowledge'
 import type { AssessmentResult } from '@/types/assessment'
 
 interface KnowledgeState {

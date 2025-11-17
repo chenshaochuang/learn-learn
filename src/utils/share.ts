@@ -27,7 +27,7 @@ export function generateShareText(record: KnowledgeRecord): string {
   
   if (record.assessment && record.assessment.suggestions && record.assessment.suggestions.length > 0) {
     lines.push('💡 改进建议：')
-    record.assessment.suggestions.slice(0, 3).forEach(suggestion => {
+    record.assessment.suggestions.slice(0, 3).forEach((suggestion: string) => {
       lines.push(`• ${suggestion}`)
     })
     lines.push('')

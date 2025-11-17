@@ -3,8 +3,7 @@
  */
 
 import type { AIQuestionGenerator, AIAnswerAssessor } from './types'
-import type { AssessmentResult } from '@/types/assessment'
-import { detectTerminology, calculateTerminologyDensity } from '@/utils/terminology'
+import { calculateTerminologyDensity } from '@/utils/terminology'
 
 /**
  * 模拟问题生成器
@@ -33,8 +32,8 @@ export class MockQuestionGenerator implements AIQuestionGenerator {
  */
 export class MockAnswerAssessor implements AIAnswerAssessor {
   async assessAnswer(
-    knowledge: string,
-    question: string,
+    _knowledge: string,
+    _question: string,
     answer: string
   ): Promise<{
     clarity: number

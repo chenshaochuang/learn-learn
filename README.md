@@ -181,8 +181,9 @@
 - **未来扩展**：Supabase（可选，用于云同步）
 
 ### 部署
-- **平台**：Vercel
-- **域名**：可选（Vercel 提供免费域名）
+- **平台**：Vercel（推荐）/ Netlify / GitHub Pages
+- **域名**：Vercel 提供免费域名，也可绑定自定义域名
+- **部署文档**：查看 [DEPLOYMENT.md](./DEPLOYMENT.md)
 
 ## 📋 开发计划
 

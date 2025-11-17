@@ -96,7 +96,7 @@ export function RecordComparison({ records, onClose }: RecordComparisonProps) {
                 <div>
                   <p className="text-sm font-medium mb-2">改进建议</p>
                   <ul className="space-y-1">
-                    {record.assessment.suggestions.slice(0, 3).map((suggestion, i) => (
+                    {record.assessment.suggestions.slice(0, 3).map((suggestion: string, i: number) => (
                       <li key={i} className="text-xs text-muted-foreground flex items-start">
                         <span className="mr-1">•</span>
                         <span>{suggestion}</span>
