@@ -1,0 +1,28 @@
+{
+  "name": "费曼学习法输出训练器",
+  "short_name": "费曼训练器",
+  "description": "通过向小白解释来检验你的理解深度",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "zh-CN",
+  "dir": "ltr"
+}
+

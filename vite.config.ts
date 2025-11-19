@@ -15,5 +15,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
   },
+  // PWA 配置：确保 Service Worker 和 manifest 被正确复制
+  publicDir: 'public',
 })
 
