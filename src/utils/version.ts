@@ -33,15 +33,11 @@ export function formatVersion(): string {
 }
 
 /**
- * 检查是否有新版本（通过比较构建时间）
+ * 检查是否有新版本（通过检查 Service Worker 更新）
  */
 export async function checkForUpdate(): Promise<boolean> {
   try {
-    // 获取当前页面的构建时间
-    const currentBuildTime = BUILD_TIME
-    
-    // 尝试获取服务器上的版本信息（通过 manifest.json 或版本接口）
-    // 这里使用一个简单的方案：检查 Service Worker 是否有更新
+    // 检查 Service Worker 是否有更新
     if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.getRegistration()
       if (registration) {
