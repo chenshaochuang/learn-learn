@@ -45,8 +45,6 @@ export function AssessmentPage() {
         tags: Array.isArray(selectedTags) ? selectedTags : [],
       }
 
-      console.log('保存数据:', recordData) // 调试日志
-      
       await KnowledgeRepo.create(recordData)
       
       showSuccess('记录保存成功！')

@@ -37,8 +37,6 @@ export class KnowledgeRepo {
       }
     }
     
-    console.log('准备保存的记录:', safeRecord) // 调试日志
-    
     try {
       await db.knowledgeRecords.add(safeRecord)
       return id
