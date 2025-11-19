@@ -2,6 +2,7 @@
  * AI 服务主入口
  * 
  * 使用百度千帆 AI API
+ * 支持多模型自动切换
  */
 
 import type { AIQuestionGenerator, AIAnswerAssessor } from './types'
@@ -11,6 +12,9 @@ import { detectTerminology } from '@/utils/terminology'
 
 // 导出类型
 export type { AIQuestionGenerator, AIAnswerAssessor }
+
+// 导出模型管理功能
+export { getCurrentModel, getAllModels, resetToFirstModel, getModelStatus } from './modelManager'
 
 // 使用百度千帆 API
 const questionGenerator: AIQuestionGenerator = new QianfanQuestionGenerator()
