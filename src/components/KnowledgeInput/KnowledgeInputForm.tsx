@@ -48,9 +48,9 @@ export function KnowledgeInputForm({ onSubmit, isLoading = false }: KnowledgeInp
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
       <div>
-        <label htmlFor="knowledge" className="block text-sm font-medium mb-2">
+        <label htmlFor="knowledge" className="block text-xs sm:text-sm font-medium mb-2">
           知识点
         </label>
         <Textarea
@@ -61,14 +61,14 @@ export function KnowledgeInputForm({ onSubmit, isLoading = false }: KnowledgeInp
             setError(null)
           }}
           placeholder="例如：什么是机器学习？机器学习是一种让计算机从数据中学习的方法..."
-          className="min-h-[120px]"
+          className="min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
           disabled={isLoading}
           aria-label="知识点输入框"
           aria-describedby={error ? "knowledge-error" : "knowledge-hint"}
           aria-invalid={!!error}
         />
         {error && (
-          <p id="knowledge-error" className="mt-2 text-sm text-destructive" role="alert">
+          <p id="knowledge-error" className="mt-2 text-xs sm:text-sm text-destructive" role="alert">
             {error}
           </p>
         )}
@@ -84,7 +84,7 @@ export function KnowledgeInputForm({ onSubmit, isLoading = false }: KnowledgeInp
         <Button 
           type="submit" 
           disabled={isLoading || !currentKnowledge.trim()}
-          className="w-full"
+          className="w-full text-sm sm:text-base"
         >
           {isLoading ? '处理中...' : '开始训练'}
         </Button>

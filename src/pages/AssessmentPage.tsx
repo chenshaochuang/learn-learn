@@ -72,13 +72,13 @@ export function AssessmentPage() {
 
   if (!assessment) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-2xl">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-center text-muted-foreground mb-4">
+            <p className="text-center text-muted-foreground mb-4 text-sm sm:text-base">
               还没有评估结果
             </p>
-            <Button onClick={() => navigate('/answer')} className="w-full">
+            <Button onClick={() => navigate('/answer')} className="w-full text-sm sm:text-base">
               返回回答
             </Button>
           </CardContent>
@@ -94,24 +94,24 @@ export function AssessmentPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl animate-fade-in">
-      <Card className="mb-6 animate-slide-up">
-        <CardHeader>
-          <CardTitle className="text-2xl">评估结果</CardTitle>
+    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-2xl animate-fade-in">
+      <Card className="mb-4 sm:mb-6 animate-slide-up">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-xl sm:text-2xl">评估结果</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* 总体评分 */}
             <div className="text-center animate-scale-in">
-              <p className="text-sm text-muted-foreground mb-2">总体评分</p>
-              <div className={`text-6xl font-bold ${getScoreColor(assessment.overall)} transition-all duration-300`}>
+              <p className="text-xs sm:text-sm text-muted-foreground mb-2">总体评分</p>
+              <div className={`text-5xl sm:text-6xl font-bold ${getScoreColor(assessment.overall)} transition-all duration-300`}>
                 {assessment.overall}
               </div>
-              <p className="text-sm text-muted-foreground mt-2">满分 10 分</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-2">满分 10 分</p>
             </div>
 
             {/* 可视化图表 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <AssessmentChart assessment={assessment} />
               <AssessmentRadar assessment={assessment} />
             </div>
@@ -119,10 +119,10 @@ export function AssessmentPage() {
             {/* 专业术语 */}
             {assessment.terminologyList && assessment.terminologyList.length > 0 && (
               <div>
-                <p className="text-sm font-medium mb-2">检测到的专业术语</p>
+                <p className="text-xs sm:text-sm font-medium mb-2">检测到的专业术语</p>
                 <div className="flex flex-wrap gap-2">
                   {assessment.terminologyList.map((item, index) => (
-                    <Badge key={index} variant="outline">
+                    <Badge key={index} variant="outline" className="text-xs sm:text-sm">
                       {item.term}
                     </Badge>
                   ))}
@@ -132,12 +132,12 @@ export function AssessmentPage() {
 
             {/* 改进建议 */}
             <div>
-              <p className="text-sm font-medium mb-2">改进建议</p>
-              <ul className="space-y-2">
+              <p className="text-xs sm:text-sm font-medium mb-2">改进建议</p>
+              <ul className="space-y-1.5 sm:space-y-2">
                 {(assessment.suggestions || []).map((suggestion, index) => (
-                  <li key={index} className="text-sm text-muted-foreground flex items-start">
-                    <span className="mr-2">•</span>
-                    <span>{suggestion}</span>
+                  <li key={index} className="text-xs sm:text-sm text-muted-foreground flex items-start">
+                    <span className="mr-2 shrink-0">•</span>
+                    <span className="break-words">{suggestion}</span>
                   </li>
                 ))}
               </ul>
@@ -145,7 +145,7 @@ export function AssessmentPage() {
 
             {/* 标签选择 */}
             <div>
-              <p className="text-sm font-medium mb-2">添加标签（可选）</p>
+              <p className="text-xs sm:text-sm font-medium mb-2">添加标签（可选）</p>
               <TagSelector
                 selectedTagIds={selectedTags || []}
                 onChange={(tags) => {
@@ -157,11 +157,11 @@ export function AssessmentPage() {
         </CardContent>
       </Card>
 
-      <div className="flex gap-4">
-        <Button variant="outline" onClick={handleRestart} className="flex-1" disabled={isSaving}>
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <Button variant="outline" onClick={handleRestart} className="flex-1 text-sm sm:text-base" disabled={isSaving}>
           重新开始
         </Button>
-        <Button onClick={handleSave} className="flex-1" disabled={isSaving}>
+        <Button onClick={handleSave} className="flex-1 text-sm sm:text-base" disabled={isSaving}>
           {isSaving ? (
             <span className="flex items-center gap-2">
               <Loading size="sm" />

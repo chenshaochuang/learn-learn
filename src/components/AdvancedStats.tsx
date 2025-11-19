@@ -42,26 +42,26 @@ export function TrendAnalysis({ records }: AdvancedStatsProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">趋势分析</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">趋势分析</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div>
-            <p className="text-sm text-muted-foreground mb-1">最近7天平均分</p>
-            <p className="text-2xl font-bold">{recentAvg.toFixed(1)}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground mb-1">最近7天平均分</p>
+            <p className="text-xl sm:text-2xl font-bold">{recentAvg.toFixed(1)}</p>
           </div>
           {olderRecords.length > 0 && (
             <div>
-              <p className="text-sm text-muted-foreground mb-1">之前平均分</p>
-              <p className="text-xl">{olderAvg.toFixed(1)}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mb-1">之前平均分</p>
+              <p className="text-lg sm:text-xl">{olderAvg.toFixed(1)}</p>
             </div>
           )}
           {trend !== 0 && (
             <div className="pt-2 border-t">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">变化趋势：</span>
-                <Badge variant={trend > 0 ? "default" : "outline"} className={trend > 0 ? "bg-green-500" : ""}>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs sm:text-sm text-muted-foreground">变化趋势：</span>
+                <Badge variant={trend > 0 ? "default" : "outline"} className={`text-xs sm:text-sm ${trend > 0 ? "bg-green-500" : ""}`}>
                   {trend > 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(1)} 分 ({trendPercent}%)
                 </Badge>
               </div>
@@ -111,16 +111,16 @@ export function DimensionAnalysis({ records }: AdvancedStatsProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">维度分析</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">维度分析</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {stats.map((stat) => (
             <div key={stat.key} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="font-medium">{stat.name}</span>
-                <span className="text-muted-foreground">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+                <span className="font-medium text-xs sm:text-sm">{stat.name}</span>
+                <span className="text-[10px] sm:text-sm text-muted-foreground">
                   平均 {stat.avg.toFixed(1)} / 最高 {stat.max} / 最低 {stat.min}
                 </span>
               </div>
@@ -136,11 +136,11 @@ export function DimensionAnalysis({ records }: AdvancedStatsProps) {
               </div>
             </div>
           ))}
-          <div className="pt-2 border-t mt-4">
-            <p className="text-xs text-muted-foreground">
+          <div className="pt-2 border-t mt-3 sm:mt-4">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
               💪 最强维度：<span className="font-medium text-green-600">{strongest.name}</span>
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
               📈 需改进：<span className="font-medium text-red-600">{weakest.name}</span>
             </p>
           </div>
@@ -203,15 +203,15 @@ export function LearningSuggestions({ records }: AdvancedStatsProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">学习建议</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">学习建议</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-2">
+        <ul className="space-y-1.5 sm:space-y-2">
           {suggestions.map((suggestion, index) => (
-            <li key={index} className="text-sm text-muted-foreground flex items-start">
-              <span className="mr-2">💡</span>
-              <span>{suggestion}</span>
+            <li key={index} className="text-xs sm:text-sm text-muted-foreground flex items-start">
+              <span className="mr-2 shrink-0">💡</span>
+              <span className="break-words">{suggestion}</span>
             </li>
           ))}
         </ul>

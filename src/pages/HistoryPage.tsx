@@ -78,50 +78,65 @@ export function HistoryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <header className="mb-6 flex items-center justify-between flex-wrap gap-4">
-        <h1 className="text-3xl font-bold">历史记录</h1>
-        <div className="flex gap-2 items-center">
-          {records.length > 0 && (
-            <>
-              <div className="flex gap-1 border rounded-md p-1">
-                <Button
-                  variant={viewMode === 'card' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('card')}
-                >
-                  卡片
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                >
-                  列表
-                </Button>
-              </div>
-              <Button
-                variant="outline"
-                onClick={() => exportAllRecordsAsJSON(records)}
-              >
-                导出 JSON
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => exportAllRecordsAsMarkdown(records)}
-              >
-                导出 Markdown
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => exportLearningReport(records)}
-              >
-                导出报告
-              </Button>
-            </>
-          )}
-          <Button onClick={() => navigate('/')} aria-label="新建训练">新建训练</Button>
+    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
+      <header className="mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl sm:text-3xl font-bold">历史记录</h1>
+          <Button 
+            onClick={() => navigate('/')} 
+            aria-label="新建训练"
+            className="text-xs sm:text-sm"
+            size="sm"
+          >
+            新建训练
+          </Button>
         </div>
+        {records.length > 0 && (
+          <div className="flex flex-wrap gap-2 items-center">
+            <div className="flex gap-1 border rounded-md p-1">
+              <Button
+                variant={viewMode === 'card' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('card')}
+                className="text-xs sm:text-sm"
+              >
+                卡片
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="text-xs sm:text-sm"
+              >
+                列表
+              </Button>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => exportAllRecordsAsJSON(records)}
+              size="sm"
+              className="text-xs sm:text-sm"
+            >
+              导出 JSON
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => exportAllRecordsAsMarkdown(records)}
+              size="sm"
+              className="text-xs sm:text-sm"
+            >
+              导出 MD
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => exportLearningReport(records)}
+              size="sm"
+              className="text-xs sm:text-sm"
+            >
+              导出报告
+            </Button>
+          </div>
+        )}
       </header>
 
       {/* 记录对比 */}
@@ -139,20 +154,20 @@ export function HistoryPage() {
       {/* 学习进度统计 */}
       {records.length > 0 && (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <ProgressChart records={records} />
             <ScoreDistribution records={records} />
           </div>
           
           {/* 知识图谱和分布统计 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <TagCloud records={records} tags={tags} />
             <KnowledgeDistribution records={records} />
             <LearningTimeDistribution records={records} />
           </div>
 
           {/* 高级统计分析 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <TrendAnalysis records={records} />
             <DimensionAnalysis records={records} />
             <LearningSuggestions records={records} />
@@ -161,8 +176,8 @@ export function HistoryPage() {
       )}
 
       {/* 搜索框和标签筛选 */}
-      <Card className="mb-6">
-        <CardContent className="pt-6 space-y-4">
+      <Card className="mb-4 sm:mb-6">
+        <CardContent className="pt-4 sm:pt-6 space-y-3 sm:space-y-4">
           <Input
             placeholder="搜索知识点或回答..."
             value={searchKeyword}
@@ -175,16 +190,17 @@ export function HistoryPage() {
               }
             }}
             aria-label="搜索记录"
+            className="text-sm sm:text-base"
           />
           {tags.length > 0 && (
             <div>
-              <p className="text-sm font-medium mb-2">按标签筛选</p>
+              <p className="text-xs sm:text-sm font-medium mb-2">按标签筛选</p>
               <div className="flex flex-wrap gap-2">
                 {tags.map(tag => (
                   <Badge
                     key={tag.id}
                     variant={selectedTagIds.includes(tag.id) ? "default" : "outline"}
-                    className="cursor-pointer"
+                    className="cursor-pointer text-xs sm:text-sm"
                     onClick={() => {
                       const newTagIds = selectedTagIds.includes(tag.id)
                         ? selectedTagIds.filter(id => id !== tag.id)
@@ -199,7 +215,7 @@ export function HistoryPage() {
                 {selectedTagIds.length > 0 && (
                   <Badge
                     variant="outline"
-                    className="cursor-pointer"
+                    className="cursor-pointer text-xs sm:text-sm"
                     onClick={() => filterByTags([])}
                   >
                     清除筛选
@@ -228,7 +244,7 @@ export function HistoryPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className={viewMode === 'card' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4' : 'space-y-4'}>
+        <div className={viewMode === 'card' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4' : 'space-y-3 sm:space-y-4'}>
           {records.map((record) => {
             // 创建标签映射
             const tagMap = new Map(

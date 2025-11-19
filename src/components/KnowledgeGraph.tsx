@@ -53,25 +53,26 @@ export function TagCloud({ records, tags }: KnowledgeGraphProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">标签云</CardTitle>
-        <p className="text-sm text-muted-foreground">
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">标签云</CardTitle>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           标签使用频率分布
         </p>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap gap-2 justify-center">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
           {tagArray.map(({ tag, count }) => {
-            // 根据使用频率计算字体大小
+            // 根据使用频率计算字体大小（移动端稍小）
+            const baseSize = minCount === maxCount ? 12 : 10
             const size = minCount === maxCount 
-              ? 14 
-              : 12 + ((count - minCount) / (maxCount - minCount)) * 8
+              ? baseSize 
+              : baseSize + ((count - minCount) / (maxCount - minCount)) * 6
             
             return (
               <Badge
                 key={tag.id}
                 variant="outline"
-                className="cursor-pointer hover:scale-110 transition-transform"
+                className="cursor-pointer hover:scale-110 transition-transform text-xs sm:text-sm"
                 style={{
                   fontSize: `${size}px`,
                   backgroundColor: tag.color ? `${tag.color}20` : undefined,
@@ -126,22 +127,22 @@ export function KnowledgeDistribution({ records }: { records: KnowledgeRecord[] 
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">知识点分布</CardTitle>
-        <p className="text-sm text-muted-foreground">
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">知识点分布</CardTitle>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           训练次数最多的知识点
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {knowledgeArray.map((item, index) => (
             <div key={index} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="font-medium truncate flex-1 mr-2">{item.knowledge}</span>
-                <span className="text-muted-foreground">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+                <span className="font-medium truncate text-xs sm:text-sm flex-1">{item.knowledge}</span>
+                <span className="text-xs sm:text-sm text-muted-foreground shrink-0">
                   {item.count} 次
                   {item.avgScore > 0 && (
-                    <span className="ml-2 text-blue-600">
+                    <span className="ml-1 sm:ml-2 text-blue-600">
                       (平均 {item.avgScore.toFixed(1)} 分)
                     </span>
                   )}
@@ -185,24 +186,24 @@ export function LearningTimeDistribution({ records }: { records: KnowledgeRecord
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">学习时间分布</CardTitle>
-        <p className="text-sm text-muted-foreground">
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">学习时间分布</CardTitle>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           最近 14 天的训练频率
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-1.5 sm:space-y-2">
           {dateArray.map(([date, count]) => (
-            <div key={date} className="flex items-center gap-3">
-              <span className="text-xs text-muted-foreground w-20">{date}</span>
-              <div className="flex-1 bg-gray-200 rounded-full h-3">
+            <div key={date} className="flex items-center gap-2 sm:gap-3">
+              <span className="text-[10px] sm:text-xs text-muted-foreground w-16 sm:w-20 shrink-0">{date}</span>
+              <div className="flex-1 bg-gray-200 rounded-full h-2.5 sm:h-3">
                 <div
-                  className="bg-green-500 h-3 rounded-full transition-all duration-500"
+                  className="bg-green-500 h-2.5 sm:h-3 rounded-full transition-all duration-500"
                   style={{ width: `${(count / maxCount) * 100}%` }}
                 />
               </div>
-              <span className="text-xs font-medium w-8 text-right">{count}</span>
+              <span className="text-[10px] sm:text-xs font-medium w-6 sm:w-8 text-right shrink-0">{count}</span>
             </div>
           ))}
         </div>

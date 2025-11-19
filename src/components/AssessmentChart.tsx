@@ -24,16 +24,16 @@ export function AssessmentChart({ assessment }: AssessmentChartProps) {
 
   return (
     <Card>
-      <CardContent className="pt-6">
-        <h3 className="text-lg font-semibold mb-4">详细评分</h3>
-        <div className="space-y-4">
+      <CardContent className="pt-4 sm:pt-6">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">详细评分</h3>
+        <div className="space-y-3 sm:space-y-4">
           {dimensions.map((dim, index) => (
             <div key={index} className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center justify-between text-xs sm:text-sm">
                 <span className="font-medium">{dim.name}</span>
                 <span className="text-muted-foreground">{dim.value}/10</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-2.5 sm:h-3 overflow-hidden">
                 <div
                   className={`${dim.color} h-full rounded-full transition-all duration-500 ease-out`}
                   style={{ width: `${(dim.value / maxValue) * 100}%` }}
@@ -77,10 +77,10 @@ export function AssessmentRadar({ assessment }: AssessmentChartProps) {
 
   return (
     <Card>
-      <CardContent className="pt-6">
-        <h3 className="text-lg font-semibold mb-4 text-center">能力雷达图</h3>
-        <div className="flex justify-center">
-          <svg width={size} height={size} className="overflow-visible">
+      <CardContent className="pt-4 sm:pt-6">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-center">能力雷达图</h3>
+        <div className="flex justify-center overflow-x-auto">
+          <svg width={size} height={size} className="overflow-visible max-w-full" viewBox={`0 0 ${size} ${size}`}>
             {/* 背景网格 */}
             {[0.5, 1].map((scale) => (
               <circle
@@ -134,7 +134,7 @@ export function AssessmentRadar({ assessment }: AssessmentChartProps) {
                   x={point.x}
                   y={point.y - 10}
                   textAnchor="middle"
-                  className="text-xs fill-gray-700 font-medium"
+                  className="text-[10px] sm:text-xs fill-gray-700 font-medium"
                 >
                   {point.value}
                 </text>
@@ -143,7 +143,7 @@ export function AssessmentRadar({ assessment }: AssessmentChartProps) {
                   x={point.x + (point.x - center > 0 ? 15 : -15)}
                   y={point.y + (point.y - center > 0 ? 15 : -5)}
                   textAnchor={point.x > center ? 'start' : 'end'}
-                  className="text-xs fill-gray-600"
+                  className="text-[10px] sm:text-xs fill-gray-600"
                 >
                   {point.name}
                 </text>

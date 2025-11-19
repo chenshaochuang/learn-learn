@@ -53,15 +53,21 @@ export function ProgressChart({ records }: ProgressChartProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">学习进度趋势</CardTitle>
-        <p className="text-sm text-muted-foreground">
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">学习进度趋势</CardTitle>
+        <p className="text-xs sm:text-sm text-muted-foreground">
           最近 {validRecords.length} 次训练的平均分：<span className="font-semibold text-blue-600">{avgScore.toFixed(1)}</span> 分
         </p>
       </CardHeader>
       <CardContent>
         <div className="relative" style={{ height: chartHeight + 40 }}>
-          <svg width={chartWidth} height={chartHeight} className="overflow-visible mx-auto">
+          <svg 
+            width={chartWidth} 
+            height={chartHeight} 
+            className="overflow-visible mx-auto max-w-full" 
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            preserveAspectRatio="xMidYMid meet"
+          >
             {/* 背景网格 */}
             {[0, 0.5, 1].map((scale) => (
               <line
@@ -77,10 +83,10 @@ export function ProgressChart({ records }: ProgressChartProps) {
             ))}
 
             {/* 坐标轴标签 */}
-            <text x={padding - 5} y={padding} className="text-xs fill-gray-500" textAnchor="end">
+            <text x={padding - 5} y={padding} className="text-[10px] sm:text-xs fill-gray-500" textAnchor="end">
               10
             </text>
-            <text x={padding - 5} y={chartHeight - padding} className="text-xs fill-gray-500" textAnchor="end">
+            <text x={padding - 5} y={chartHeight - padding} className="text-[10px] sm:text-xs fill-gray-500" textAnchor="end">
               0
             </text>
 
@@ -115,9 +121,9 @@ export function ProgressChart({ records }: ProgressChartProps) {
           </svg>
 
           {/* X轴标签 */}
-          <div className="flex justify-between mt-2 text-xs text-muted-foreground px-5">
+          <div className="flex justify-between mt-2 text-[10px] sm:text-xs text-muted-foreground px-2 sm:px-5 overflow-x-auto">
             {validRecords.map((record, index) => (
-              <span key={index} className="transform -rotate-45 origin-left">
+              <span key={index} className="transform -rotate-45 origin-left whitespace-nowrap">
                 {new Date(record.createdAt).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
               </span>
             ))}
@@ -149,15 +155,15 @@ export function ScoreDistribution({ records }: ProgressChartProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">评分分布</CardTitle>
+      <CardHeader className="pb-3 sm:pb-6">
+        <CardTitle className="text-base sm:text-lg">评分分布</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-green-600">优秀 (8-10分)</span>
-              <span className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+              <span className="text-xs sm:text-sm font-medium text-green-600">优秀 (8-10分)</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 {distribution.excellent} 次 ({((distribution.excellent / total) * 100).toFixed(1)}%)
               </span>
             </div>
@@ -170,9 +176,9 @@ export function ScoreDistribution({ records }: ProgressChartProps) {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-yellow-600">良好 (6-8分)</span>
-              <span className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+              <span className="text-xs sm:text-sm font-medium text-yellow-600">良好 (6-8分)</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 {distribution.good} 次 ({((distribution.good / total) * 100).toFixed(1)}%)
               </span>
             </div>
@@ -185,9 +191,9 @@ export function ScoreDistribution({ records }: ProgressChartProps) {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-red-600">需改进 (&lt;6分)</span>
-              <span className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
+              <span className="text-xs sm:text-sm font-medium text-red-600">需改进 (&lt;6分)</span>
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 {distribution.needImprove} 次 ({((distribution.needImprove / total) * 100).toFixed(1)}%)
               </span>
             </div>
