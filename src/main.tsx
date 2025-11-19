@@ -11,7 +11,9 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('Service Worker 注册成功:', registration.scope)
+        if (import.meta.env.MODE === 'development') {
+          console.log('Service Worker 注册成功:', registration.scope)
+        }
         
         // 检查更新
         registration.addEventListener('updatefound', () => {
@@ -19,12 +21,20 @@ if ('serviceWorker' in navigator) {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // 新版本可用，可以提示用户刷新
-                console.log('新版本可用，请刷新页面')
+                // 新版本可用，触发自定义事件通知组件
+                window.dispatchEvent(new CustomEvent('sw-update-available'))
+                if (import.meta.env.MODE === 'development') {
+                  console.log('新版本可用，请刷新页面')
+                }
               }
             })
           }
         })
+        
+        // 定期检查更新（每小时）
+        setInterval(() => {
+          registration.update()
+        }, 60 * 60 * 1000)
       })
       .catch((error) => {
         console.error('Service Worker 注册失败:', error)
@@ -36,7 +46,10 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (!refreshing) {
       refreshing = true
-      window.location.reload()
+      // 延迟一下，确保新 Service Worker 已激活
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
     }
   })
 }

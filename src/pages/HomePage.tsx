@@ -6,6 +6,7 @@ import { generateQuestions } from '@/services/ai'
 import { useToast } from '@/components/ui/toast'
 import { Loading } from '@/components/ui/loading'
 import { Button } from '@/components/ui/button'
+import { VersionInfo } from '@/components/VersionInfo'
 
 /**
  * 首页：知识点输入
@@ -40,7 +41,7 @@ export function HomePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-2xl">
+    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-2xl relative">
       <header className="mb-6 sm:mb-8 text-center animate-fade-in">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent px-2">
           费曼学习法输出训练器
@@ -64,6 +65,8 @@ export function HomePage() {
       ) : (
         <KnowledgeInput onSubmit={handleSubmit} isLoading={isGenerating} />
       )}
+      {/* 版本信息（右下角隐蔽位置） */}
+      <VersionInfo />
     </div>
   )
 }

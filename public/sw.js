@@ -1,5 +1,6 @@
 // Service Worker for PWA
-const CACHE_NAME = 'feynman-trainer-v1'
+// 更新版本号以强制更新缓存
+const CACHE_NAME = 'feynman-trainer-v2'
 const urlsToCache = [
   '/',
   '/index.html',
