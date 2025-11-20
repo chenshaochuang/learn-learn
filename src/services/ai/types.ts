@@ -28,3 +28,13 @@ export interface AIAnswerAssessor {
   }>
 }
 
+export interface AIReferenceAnswerGenerator {
+  /**
+   * 生成参考版本
+   * @param knowledge 知识点
+   * @param questions 问题列表
+   * @returns 参考版本答案
+   */
+  generateReferenceAnswer(knowledge: string, questions: string[]): Promise<string>
+}
+

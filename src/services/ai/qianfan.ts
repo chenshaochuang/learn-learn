@@ -3,8 +3,8 @@
  * 支持多模型自动切换
  */
 
-import type { AIQuestionGenerator, AIAnswerAssessor } from './types'
-import { FEYNMAN_QUESTION_PROMPT, FEYNMAN_ASSESSMENT_PROMPT } from './prompts'
+import type { AIQuestionGenerator, AIAnswerAssessor, AIReferenceAnswerGenerator } from './types'
+import { FEYNMAN_QUESTION_PROMPT, FEYNMAN_ASSESSMENT_PROMPT, FEYNMAN_REFERENCE_ANSWER_PROMPT } from './prompts'
 import { 
   MODEL_LIST, 
   getCurrentModelIndex, 
@@ -230,6 +230,42 @@ export class QianfanAnswerAssessor implements AIAnswerAssessor {
         suggestions: ['AI 评估解析失败，请重试'],
       }
     }
+  }
+}
+
+/**
+ * 百度千帆参考版本生成器
+ */
+export class QianfanReferenceAnswerGenerator implements AIReferenceAnswerGenerator {
+  async generateReferenceAnswer(knowledge: string, questions: string[]): Promise<string> {
+    // 将问题列表格式化为字符串，每行一个问题
+    const questionsText = questions
+      .map((q, index) => `${index + 1}. ${q}`)
+      .join('\n')
+    
+    const prompt = FEYNMAN_REFERENCE_ANSWER_PROMPT
+      .replace('{knowledge}', knowledge)
+      .replace('{questions}', questionsText)
+
+    const messages = [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ]
+
+    const response = await callQianfanAPI(messages)
+    
+    // 清理响应内容，移除可能的markdown代码块标记
+    let referenceAnswer = response.trim()
+    
+    // 如果响应被包裹在代码块中，提取内容
+    const codeBlockMatch = referenceAnswer.match(/```(?:markdown|text)?\s*([\s\S]*?)\s*```/)
+    if (codeBlockMatch) {
+      referenceAnswer = codeBlockMatch[1].trim()
+    }
+    
+    return referenceAnswer || '参考版本生成失败，请重试'
   }
 }
 

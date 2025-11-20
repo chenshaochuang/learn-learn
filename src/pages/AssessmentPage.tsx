@@ -141,6 +141,33 @@ export function AssessmentPage() {
               </ul>
             </div>
 
+            {/* 参考版本对比 */}
+            {assessment.referenceAnswer && (
+              <div className="space-y-3 sm:space-y-4">
+                <p className="text-xs sm:text-sm font-medium">参考版本对比</p>
+                
+                {/* 用户回答 */}
+                <div>
+                  <p className="text-xs sm:text-sm font-medium mb-2 text-muted-foreground">你的回答</p>
+                  <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
+                    <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">
+                      {answer || '暂无回答'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* AI参考版本 */}
+                <div>
+                  <p className="text-xs sm:text-sm font-medium mb-2 text-muted-foreground">AI参考版本</p>
+                  <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-3 sm:p-4 border border-blue-200 dark:border-blue-800">
+                    <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">
+                      {assessment.referenceAnswer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 标签选择 */}
             <div>
               <p className="text-xs sm:text-sm font-medium mb-2">添加标签（可选）</p>

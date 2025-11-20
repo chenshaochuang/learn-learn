@@ -22,6 +22,8 @@ export interface AssessmentResult {
   suggestions: string[]
   /** 评估时间 */
   assessedAt: Date
+  /** AI生成的参考版本（可选） */
+  referenceAnswer?: string
 }
 
 /**

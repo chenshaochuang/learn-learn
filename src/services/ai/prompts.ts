@@ -41,3 +41,22 @@ export const FEYNMAN_ASSESSMENT_PROMPT = `请评估以下回答的质量：
   "suggestions": ["建议1", "建议2", ...]
 }`
 
+/**
+ * 生成参考版本的 Prompt
+ */
+export const FEYNMAN_REFERENCE_ANSWER_PROMPT = `请根据以下知识点和问题，用简单易懂的语言生成一个参考回答：
+
+知识点：{knowledge}
+
+问题：
+{questions}
+
+要求：
+1. 用最简单易懂的语言回答，就像向一个小学生解释一样
+2. 避免使用专业术语，如果必须使用，请用简单的话解释清楚
+3. 回答要有清晰的逻辑结构
+4. 要完整回答所有问题
+5. 回答要连贯流畅，形成一个完整的解释
+
+请直接返回回答内容，不要添加其他说明。`
+

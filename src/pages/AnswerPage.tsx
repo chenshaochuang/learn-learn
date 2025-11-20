@@ -33,7 +33,7 @@ export function AnswerPage() {
     try {
       // 使用第一个问题作为评估基准（后续可以改进为评估所有问题）
       const question = (questions && questions.length > 0) ? questions[0] : '请解释这个知识点'
-      const assessment = await assessAnswer(currentKnowledge, question, localAnswer)
+      const assessment = await assessAnswer(currentKnowledge, question, localAnswer, questions)
       
       setAnswer(localAnswer)
       setAssessment(assessment)
