@@ -146,6 +146,23 @@ export function AssessmentPage() {
               <div className="space-y-3 sm:space-y-4">
                 <p className="text-xs sm:text-sm font-medium">参考版本对比</p>
                 
+                {/* 显示问题列表 */}
+                {questions && questions.length > 0 && (
+                  <div className="mb-3 sm:mb-4">
+                    <p className="text-xs sm:text-sm font-medium mb-2 text-muted-foreground">问题：</p>
+                    <div className="space-y-2">
+                      {questions.map((question, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <Badge variant="outline" className="mt-0.5 text-xs sm:text-sm shrink-0">
+                            {index + 1}
+                          </Badge>
+                          <p className="flex-1 text-xs sm:text-sm text-muted-foreground break-words">{question}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
                 {/* 用户回答 */}
                 <div>
                   <p className="text-xs sm:text-sm font-medium mb-2 text-muted-foreground">你的回答</p>

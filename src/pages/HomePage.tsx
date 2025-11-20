@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { KnowledgeInput } from '@/components/KnowledgeInput'
 import { useKnowledgeStore } from '@/stores/knowledgeStore'
@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/toast'
 import { Loading } from '@/components/ui/loading'
 import { Button } from '@/components/ui/button'
 import { VersionInfo } from '@/components/VersionInfo'
+import { checkVersionAndRefresh } from '@/utils/version'
 
 /**
  * 首页：知识点输入
@@ -16,6 +17,24 @@ export function HomePage() {
   const { setQuestions, setLoading, setError } = useKnowledgeStore()
   const { showError, showSuccess } = useToast()
   const [isGenerating, setIsGenerating] = useState(false)
+
+  // 在首页加载时检查版本，如果不一致则强制刷新
+  useEffect(() => {
+    // 只在生产环境或非开发模式时检查版本
+    if (import.meta.env.MODE === 'production' || import.meta.env.PROD) {
+      // 延迟一下，确保页面已加载，避免影响用户体验
+      const timer = setTimeout(() => {
+        checkVersionAndRefresh(true).catch(error => {
+          // 静默处理错误，不影响用户体验
+          if (import.meta.env.MODE === 'development') {
+            console.warn('版本检查失败:', error)
+          }
+        })
+      }, 1000) // 延迟1秒，让页面先渲染
+      
+      return () => clearTimeout(timer)
+    }
+  }, [])
 
   const handleSubmit = async (knowledge: string) => {
     setIsGenerating(true)

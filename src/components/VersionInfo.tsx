@@ -40,22 +40,34 @@ export function VersionInfo() {
     }
   }
 
-  const handleRefresh = () => {
-    // 清除缓存并刷新
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(registration => {
-          registration.unregister()
-        })
-        // 清除缓存
-        caches.keys().then(cacheNames => {
-          cacheNames.forEach(cacheName => {
-            caches.delete(cacheName)
-          })
+  const handleRefresh = async () => {
+    // 智能清除缓存：只清除应用缓存，保留IndexedDB数据
+    try {
+      if ('serviceWorker' in navigator) {
+        // 更新Service Worker以获取新版本
+        const registrations = await navigator.serviceWorker.getRegistrations()
+        
+        // 只清除应用相关的缓存（以 'feynman-trainer-' 开头）
+        // IndexedDB 数据不会被影响，因为它是独立的存储系统
+        const cacheNames = await caches.keys()
+        const appCacheNames = cacheNames.filter(name => name.startsWith('feynman-trainer-'))
+        
+        // 删除所有旧版本的应用缓存
+        await Promise.all(appCacheNames.map(cacheName => caches.delete(cacheName)))
+        
+        // 更新所有Service Worker注册
+        await Promise.all(registrations.map(registration => registration.update()))
+        
+        // 等待一下确保更新完成，然后刷新
+        setTimeout(() => {
           window.location.reload()
-        })
-      })
-    } else {
+        }, 100)
+      } else {
+        window.location.reload()
+      }
+    } catch (error) {
+      console.error('清除缓存失败:', error)
+      // 即使失败也尝试刷新
       window.location.reload()
     }
   }

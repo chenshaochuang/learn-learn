@@ -1,6 +1,7 @@
 // Service Worker for PWA
-// 更新版本号以强制更新缓存
-const CACHE_NAME = 'feynman-trainer-v2'
+// 版本号会在构建时自动注入
+const CACHE_NAME = 'feynman-trainer-__APP_VERSION__'
+const CACHE_PREFIX = 'feynman-trainer-'
 const urlsToCache = [
   '/',
   '/index.html',
@@ -27,18 +28,22 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
+      // 只删除旧版本的应用缓存，保留IndexedDB数据
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Service Worker: 删除旧缓存', cacheName)
+          // 只删除以 CACHE_PREFIX 开头的旧缓存（应用缓存）
+          // IndexedDB 数据不会被影响，因为它的存储是独立的
+          if (cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_NAME) {
+            console.log('Service Worker: 删除旧版本缓存', cacheName)
             return caches.delete(cacheName)
           }
         })
       )
+    }).then(() => {
+      // 立即控制所有客户端
+      return self.clients.claim()
     })
   )
-  // 立即控制所有客户端
-  return self.clients.claim()
 })
 
 // 拦截网络请求
